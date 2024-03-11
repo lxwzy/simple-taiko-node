@@ -3,7 +3,7 @@
 set -eou pipefail
 
 ARGS="--l1.ws ${L1_ENDPOINT_WS}
-    --l2.http http://l2_execution_engine:8545
+    --l2.http http://127.0.0.1:8545
     --taikoL1 ${TAIKO_L1_ADDRESS}
     --taikoL2 ${TAIKO_L2_ADDRESS}
     --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}

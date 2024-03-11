@@ -14,12 +14,6 @@ services:
     stop_grace_period: 3m
     volumes:
       - l2_execution_engine_data:/data/taiko-geth
-    ports:
-      - "${PORT_L2_EXECUTION_ENGINE_METRICS}:6060"
-      - "${PORT_L2_EXECUTION_ENGINE_HTTP}:8545"
-      - "${PORT_L2_EXECUTION_ENGINE_WS}:8546"
-      - "${PORT_L2_EXECUTION_ENGINE_P2P}:30303"
-      - "${PORT_L2_EXECUTION_ENGINE_P2P}:30303/udp"
     command:
       - --taiko
       - --networkid
@@ -80,8 +74,6 @@ services:
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
-    ports:
-      - "${PORT_PROVER_SERVER}:9876"
     env_file:
       - .env
     volumes:
