@@ -1,4 +1,5 @@
 x-logging: &logging
+  network_mode: host
   logging:
     options:
       max-size: 10m
@@ -116,49 +117,6 @@ services:
       - "/script/start-proposer.sh"
     <<: *logging
     profiles:
-      - proposer
-
-  prometheus:
-    image: prom/prometheus:latest
-    restart: unless-stopped
-    ports:
-      - ${PORT_PROMETHEUS}:9090
-    depends_on:
-      - l2_execution_engine
-      - taiko_client_driver
-    volumes:
-      - ./docker/prometheus/l2:/etc/prometheus
-      - prometheus_data:/prometheus
-    command:
-      - --log.level=debug
-      - --config.file=/etc/prometheus/prometheus.yml
-    <<: *logging
-    profiles:
-      - l2_execution_engine
-      - prover
-      - proposer
-
-  grafana:
-    image: grafana/grafana:latest
-    restart: unless-stopped
-    ports:
-      - ${PORT_GRAFANA}:3000
-    depends_on:
-      - l2_execution_engine
-      - taiko_client_driver
-      - prometheus
-    environment:
-      - GF_PATHS_CONFIG=/etc/grafana/custom/settings.ini
-      - GF_PATHS_PROVISIONING=/etc/grafana/custom/provisioning
-      - GF_LOG_LEVEL=WARN
-    volumes:
-      - ./docker/grafana/custom/settings.ini:/etc/grafana/custom/settings.ini
-      - ./docker/grafana/custom/l2/provisioning/:/etc/grafana/custom/provisioning/
-      - grafana_data:/var/lib/grafana
-    <<: *logging
-    profiles:
-      - l2_execution_engine
-      - prover
       - proposer
 
 volumes:
